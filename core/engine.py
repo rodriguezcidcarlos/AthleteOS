@@ -73,12 +73,7 @@ class AthleteOSCore:
 
     def prepare_data(self, df):
 
-        print("PREP 1 COPY", flush=True)
-
         df = df.copy()
-
-
-        print("PREP 2 PLAYER ID", flush=True)
 
         if "player_id" in df.columns:
             df.loc[:, "player_id"] = pd.to_numeric(
@@ -87,19 +82,13 @@ class AthleteOSCore:
             )
 
 
-        print("PREP 3 NUMERIC", flush=True)
-
         for col in ["duration", "rpe"]:
-
-            print("PREP CONVERT", col, flush=True)
 
             df.loc[:, col] = pd.to_numeric(
                 df[col],
                 errors="coerce"
             )
 
-
-        print("PREP 4 FILL NA", flush=True)
 
         df.loc[:, "duration"] = (
             df["duration"]
@@ -112,7 +101,10 @@ class AthleteOSCore:
         )
 
 
-        print("PREP 5 DATE", flush=True)
+        if "date" not in df.columns:
+    
+            df["date"] = pd.NaT
+
 
         df["date"] = pd.to_datetime(
             df["date"],
@@ -120,8 +112,6 @@ class AthleteOSCore:
         )
 
         if df["date"].isna().any():
-
-            print("RECONSTRUYENDO FECHAS", flush=True)
 
             df.loc[:, "date"] = (
                 pd.to_datetime("2026-07-01")
@@ -131,13 +121,6 @@ class AthleteOSCore:
                     unit="D"
                 )
             )
-
-        print(df["date"].head().to_string(), flush=True)
-        print(df["date"].dtype, flush=True)
-
-
-
-        print("PREP 6 SORT", flush=True)
 
         df = (
             df
@@ -149,27 +132,32 @@ class AthleteOSCore:
             )
             .reset_index(drop=True)
         )
-
-
-        print("PREP 7 DAILY LOAD", flush=True)
-
+    
         df = calculate_daily_load(df)
 
-
-        print("PREP 8 ACWR", flush=True)
 
         df = calculate_acwr(df)
 
 
-        print("PREP COLUMNAS FINAL", flush=True)
-
         print(
-            df.columns.tolist(),
+            "DATA READY:",
+            df.shape,
             flush=True
         )
 
+        print(
+            df[
+                [
+                    "player_id",
+                    "date",
+                    "daily_load",
+                    "acwr",
+                    "status"
+                ]
+            ].tail(),
+            flush=True
+        )
 
-        print("PREP 9 RETURN", flush=True)
 
         return df
     
