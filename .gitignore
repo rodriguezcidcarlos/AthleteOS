@@ -1,0 +1,64 @@
+# Entorno virtual
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Archivos temporales
+.DS_Store
+
+# Tests
+requirements_test.txt
+
+# Variables de entorno
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Entornos
+.venv/
+venv/
+
+# Temporales Office
+.~lock*
+~$*
+
+# Copias
+app_backup.py
+
+# Datos reales
+data/EWMA.xlsx
+data/synthetic_training_Bienvenida.xlsx
+
+# Excel temporary files
+~$*.xlsx
+.~lock.*
+
+# Python
+__pycache__/
+*.pyc
+
+# Entornos
+.venv/
+
+# Temporales Excel
+.~lock*
+~$*
+
+# Backups
+app_backup.py
+
+# Datos no demo
+data/EWMA.xlsx
+data/synthetic_training_Bienvenida.xlsx
