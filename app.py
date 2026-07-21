@@ -39,6 +39,7 @@ from utils.io import (
 
 df = load_excel_monthly(DATA_FILE)
 
+df = normalize_training_columns(df)
 
 last_session = pd.to_datetime(
     df["date"]
