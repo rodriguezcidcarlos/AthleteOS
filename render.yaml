@@ -1,9 +1,7 @@
 services:
   - type: web
-    name: athleteos-demo
-    runtime: python
+    name: athleteos
+    env: python
+    pythonVersion: 3.13.9
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:server
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
