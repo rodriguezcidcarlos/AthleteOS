@@ -53,9 +53,7 @@ prepared = core.prepare_data(
     df
 )
 
-squad = core.analyze_squad(
-    prepared
-)
+squad = pd.DataFrame()
 
 required = [
     "date",
