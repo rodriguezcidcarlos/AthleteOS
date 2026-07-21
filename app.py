@@ -42,6 +42,10 @@ print("ANTES PREPARE DATA", flush=True)
 df_core = core.prepare_data(df)
 
 print("PREPARE DATA OK", flush=True)
+
+print(df.head().to_string(), flush=True)
+print(df.columns.tolist(), flush=True)
+
 print(df_core.shape, flush=True)
 print(df_core.columns.tolist(), flush=True)
 

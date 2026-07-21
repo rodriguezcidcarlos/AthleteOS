@@ -73,14 +73,81 @@ class AthleteOSCore:
 
     def prepare_data(self, df):
 
+        print("PREP 1 COPY", flush=True)
+
         df = df.copy()
+
+        print("PREP 2 PLAYER ID", flush=True)
 
         if "player_id" in df.columns:
 
-            df["player_id"] = pd.to_numeric(
+            df.loc[:, "player_id"] = pd.to_numeric(
                 df["player_id"],
                 errors="coerce"
             )
+
+
+        print("PREP 3 NUMERIC", flush=True)
+
+        numeric_cols = [
+            "duration",
+            "rpe"
+        ]
+
+        for col in numeric_cols:
+
+            print("PREP CONVERT", col, flush=True)
+
+            df.loc[:, col] = pd.to_numeric(
+                df[col],
+                errors="coerce"
+            )
+
+
+        print("PREP 4 FILL NA", flush=True)
+
+        df.loc[:, "duration"] = (
+            df["duration"]
+            .fillna(0)
+        )
+
+        df.loc[:, "rpe"] = (
+            df["rpe"]
+            .fillna(0)
+        )
+
+
+        print("PREP 5 DATE", flush=True)
+
+        df["date"] = pd.to_datetime(
+            df["date"],
+            errors="coerce"
+        )
+
+
+        print("PREP 6 SORT", flush=True)
+
+        df = df.sort_values(
+            [
+                "player_id",
+                "date"
+            ]
+        ).reset_index(drop=True)
+
+
+        print("PREP 7 DAILY LOAD", flush=True)
+
+        df = calculate_daily_load(df)
+
+
+        print("PREP 8 ACWR", flush=True)
+
+        df = calculate_acwr(df)
+
+
+        print("PREP 9 RETURN", flush=True)
+
+        return df
         # ----------------------
         # Variables numéricas
         # ----------------------
@@ -99,8 +166,8 @@ class AthleteOSCore:
             )
 
 
-        df["duration"] = df["duration"].fillna(0)
-        df["rpe"] = df["rpe"].fillna(0)
+        df.loc[:, "duration"] = df["duration"].fillna(0)
+        df.loc[:, "rpe"] = df["rpe"].fillna(0)
 
 
 
