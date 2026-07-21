@@ -96,36 +96,17 @@ def load_training_data(path):
 
         print("LOAD 4 DATE BUILD", flush=True)
 
-        # asegurar que día es entero válido
-        day_values = (
-            pd.to_numeric(
-                df["day"],
-                errors="coerce"
-            )
+        # Crear fecha sin pd.to_datetime
+        df.loc[:, "date"] = (
+            "2026-07-"
+            + df["day"]
             .fillna(1)
             .astype(int)
             .astype(str)
             .str.zfill(2)
         )
 
-
-        df.loc[:, "date"] = (
-            "2026-07-" + day_values
-        )
-
-
-        df.loc[:, "date"] = pd.to_datetime(
-            df["date"],
-            errors="coerce"
-        )
-
-
-        print(
-            "DATES OK",
-            df["date"].min(),
-            df["date"].max(),
-            flush=True
-        )
+        print("DATE STRING OK", flush=True)
 
 
     print("LOAD 5 RETURN", flush=True)
