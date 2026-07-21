@@ -36,3 +36,9 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8050, debug=False)
     
     
+print("ANTES PRIORITY", flush=True)
+
+priority = core.prioritize_squad(squad)
+
+print("PRIORITY OK", flush=True)
+print(priority.head().to_string(), flush=True)
