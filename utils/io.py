@@ -31,25 +31,37 @@ def normalize_columns(df):
         .str.strip()
     )
 
+
     print("IO 3 RENAME", flush=True)
 
-    df.rename(
-        columns=COLUMN_MAPPING,
-        inplace=True
+    df = df.rename(
+        columns=COLUMN_MAPPING
     )
+
 
     print("IO 4 PLAYER", flush=True)
 
     if "player" in df.columns:
+
         df.loc[:, "player"] = (
             df["player"]
             .astype(str)
             .str.strip()
+            .str.replace("\n", "", regex=False)
         )
+
 
     print("IO 5 NUMERIC", flush=True)
 
-    for col in ["player_id", "day", "duration", "rpe"]:
+    numeric_cols = [
+        "player_id",
+        "day",
+        "duration",
+        "rpe"
+    ]
+
+
+    for col in numeric_cols:
 
         if col in df.columns:
 
@@ -60,11 +72,10 @@ def normalize_columns(df):
                 errors="coerce"
             )
 
+
     print("IO 6 RETURN", flush=True)
 
     return df
-
-
 
 def load_training_data(path):
 
@@ -78,19 +89,44 @@ def load_training_data(path):
     df = normalize_columns(df)
 
     print("LOAD 3 NORMALIZED", flush=True)
+    print(df.columns.tolist(), flush=True)
+
 
     if "date" not in df.columns and "day" in df.columns:
 
         print("LOAD 4 DATE BUILD", flush=True)
 
-        df["date"] = pd.to_datetime(
-            {
-                "year": 2026,
-                "month": 7,
-                "day": df["day"]
-            },
+        # asegurar que día es entero válido
+        day_values = (
+            pd.to_numeric(
+                df["day"],
+                errors="coerce"
+            )
+            .fillna(1)
+            .astype(int)
+            .astype(str)
+            .str.zfill(2)
+        )
+
+
+        df.loc[:, "date"] = (
+            "2026-07-" + day_values
+        )
+
+
+        df.loc[:, "date"] = pd.to_datetime(
+            df["date"],
             errors="coerce"
         )
+
+
+        print(
+            "DATES OK",
+            df["date"].min(),
+            df["date"].max(),
+            flush=True
+        )
+
 
     print("LOAD 5 RETURN", flush=True)
 
