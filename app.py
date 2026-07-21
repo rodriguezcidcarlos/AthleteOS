@@ -14,12 +14,16 @@ df_core = core.prepare_data(df)
 
 app = Dash(__name__)
 
+server = app.server
+
+print("SERVER EXPORT:", server, flush=True)
+
+print("SERVER CREATED OK", flush=True)
+
 app.layout = html.Div([
     html.H1("AthleteOS"),
     html.P(f"Registros: {len(df_core)}")
 ])
-
-server = app.server
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8050, debug=False)
