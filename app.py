@@ -1,14 +1,32 @@
-from dash import Dash, html
+from pathlib import Path
 
-print("ANTES DASH")
+from dash import Dash, html, dcc
+from utils.io import load_excel_monthly, normalize_training_columns
+
+print("IO IMPORT OK")
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+DATA_FILE = BASE_DIR / "data" / "synthetic_training.xlsx"
+
+
+df = load_excel_monthly(DATA_FILE)
+
+print("DATA OK")
+print(df.shape)
+print(df.columns)
+
 
 app = Dash(__name__)
 
 print("DASH CREADO")
 
+
 app.layout = html.Div(
     "AthleteOS Render Test"
 )
+
 
 print("LAYOUT OK")
 
