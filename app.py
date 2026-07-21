@@ -17,28 +17,19 @@ from core.engine import AthleteOSCore
 print("004 CORE IMPORT OK", flush=True)
 
 
-
-
-
 BASE_DIR = Path(__file__).resolve().parent
-
 DATA_FILE = BASE_DIR / "data" / "synthetic_training.xlsx"
 
 
-print("ANTES DE LEER EXCEL")
+print("005 BEFORE EXCEL", flush=True)
 
 df = load_excel_monthly(DATA_FILE)
 
-print("DATA OK")
-print(df.shape)
+print("006 DATA OK", flush=True)
+print(df.shape, flush=True)
 
 
-print("ANTES CORE")
-
-
-
-
-
+# PARAMOS AQUÍ
 app = Dash(__name__)
 
 app.layout = html.Div(
