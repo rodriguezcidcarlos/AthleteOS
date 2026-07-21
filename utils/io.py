@@ -56,7 +56,7 @@ def normalize_columns(df):
     # limpiar nombres jugadores
     if "player" in df.columns:
 
-        df["player"] = (
+        df.loc[:, "player"] = (
             df["player"]
             .astype(str)
             .str.strip()
@@ -77,13 +77,10 @@ def normalize_columns(df):
 
         if col in df.columns:
 
-            df[col] = pd.to_numeric(
+            df.loc[:, col] = pd.to_numeric(
                 df[col],
                 errors="coerce"
             )
-
-
-    return df
 
 
 def normalize_training_columns(df):
