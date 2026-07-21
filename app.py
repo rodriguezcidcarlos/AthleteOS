@@ -12,6 +12,13 @@ df = load_training_data(DATA_FILE)
 core = AthleteOSCore()
 df_core = core.prepare_data(df)
 
+print("ANTES ANALYZE SQUAD", flush=True)
+
+squad = core.analyze_squad(df_core)
+
+print("SQUAD OK", flush=True)
+print(squad.head().to_string(), flush=True)
+
 app = Dash(__name__)
 
 server = app.server
@@ -27,3 +34,5 @@ app.layout = html.Div([
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8050, debug=False)
+    
+    
