@@ -1,21 +1,41 @@
 from pathlib import Path
+
 from dash import Dash, html
 
 print("APP START")
+
 
 from utils.io import load_excel_monthly
 
 print("IO IMPORT OK")
 
 
+from core.engine import AthleteOSCore
+
+print("CORE IMPORT OK")
+
+
 BASE_DIR = Path(__file__).resolve().parent
+
 DATA_FILE = BASE_DIR / "data" / "synthetic_training.xlsx"
+
 
 print("ANTES DE LEER EXCEL")
 
-# df = load_excel_monthly(DATA_FILE)
+df = load_excel_monthly(DATA_FILE)
 
-print("DESPUES DE LEER EXCEL")
+print("DATA OK")
+print(df.shape)
+
+
+print("ANTES CORE")
+
+
+core = AthleteOSCore(
+    df
+)
+
+print("CORE INIT OK")
 
 
 app = Dash(__name__)
