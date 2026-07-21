@@ -109,7 +109,10 @@ class AthleteOSCore:
         print("PREP 5 DATE BEFORE RETURN", flush=True)
 
         return df
+      
+    squad = core.analyze_squad(df_core)
 
+    print(squad.head())
 
     def analyze_player(self, player_df: pd.DataFrame):
 
