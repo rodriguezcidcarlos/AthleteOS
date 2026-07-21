@@ -1,18 +1,23 @@
+print("000 APP START", flush=True)
+
 from pathlib import Path
+
+print("001 BEFORE DASH", flush=True)
 
 from dash import Dash, html
 
-print("APP START")
-
+print("002 DASH OK", flush=True)
 
 from utils.io import load_excel_monthly
 
-print("IO IMPORT OK")
-
+print("003 IO OK", flush=True)
 
 from core.engine import AthleteOSCore
 
-print("CORE IMPORT OK")
+print("004 CORE IMPORT OK", flush=True)
+
+
+
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -31,11 +36,7 @@ print(df.shape)
 print("ANTES CORE")
 
 
-core = AthleteOSCore(
-    df
-)
 
-print("CORE INIT OK")
 
 
 app = Dash(__name__)
