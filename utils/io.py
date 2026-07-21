@@ -19,7 +19,11 @@ COLUMN_MAPPING = {
 
 def normalize_columns(df):
 
+    print("IO 1 COPY", flush=True)
+
     df = df.copy()
+
+    print("IO 2 CLEAN COLUMNS", flush=True)
 
     df.columns = (
         df.columns
@@ -27,24 +31,36 @@ def normalize_columns(df):
         .str.strip()
     )
 
+    print("IO 3 RENAME", flush=True)
+
     df.rename(
         columns=COLUMN_MAPPING,
         inplace=True
     )
 
+    print("IO 4 PLAYER", flush=True)
+
     if "player" in df.columns:
-        df["player"] = (
+        df.loc[:, "player"] = (
             df["player"]
             .astype(str)
             .str.strip()
         )
 
+    print("IO 5 NUMERIC", flush=True)
+
     for col in ["player_id", "day", "duration", "rpe"]:
+
         if col in df.columns:
-            df[col] = pd.to_numeric(
+
+            print("CONVERT", col, flush=True)
+
+            df.loc[:, col] = pd.to_numeric(
                 df[col],
                 errors="coerce"
             )
+
+    print("IO 6 RETURN", flush=True)
 
     return df
 
@@ -52,11 +68,20 @@ def normalize_columns(df):
 
 def load_training_data(path):
 
+    print("LOAD 1 READ EXCEL", flush=True)
+
     df = pd.read_excel(path)
+
+    print("LOAD 2 EXCEL OK", flush=True)
+    print(df.shape, flush=True)
 
     df = normalize_columns(df)
 
+    print("LOAD 3 NORMALIZED", flush=True)
+
     if "date" not in df.columns and "day" in df.columns:
+
+        print("LOAD 4 DATE BUILD", flush=True)
 
         df["date"] = pd.to_datetime(
             {
@@ -66,5 +91,7 @@ def load_training_data(path):
             },
             errors="coerce"
         )
+
+    print("LOAD 5 RETURN", flush=True)
 
     return df
