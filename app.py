@@ -30,6 +30,15 @@ from core.engine import AthleteOSCore
 
 print("CORE IMPORT OK", flush=True)
 
+
+print("ANTES CORE INIT", flush=True)
+
+core = AthleteOSCore(
+    df
+)
+
+print("CORE INIT OK", flush=True)
+
 app = Dash(__name__)
 
 app.layout = html.Div(
