@@ -121,16 +121,16 @@ class AthleteOSCore:
 
         if df["date"].isna().any():
 
-        print("RECONSTRUYENDO FECHAS", flush=True)
+            print("RECONSTRUYENDO FECHAS", flush=True)
 
-        df.loc[:, "date"] = (
-            pd.to_datetime("2026-07-01")
-            +
-            pd.to_timedelta(
-                df["day"] - 1,
-                unit="D"
+            df.loc[:, "date"] = (
+                pd.to_datetime("2026-07-01")
+                +
+                pd.to_timedelta(
+                    df["day"] - 1,
+                    unit="D"
+                )
             )
-        )
 
         print(df["date"].head().to_string(), flush=True)
         print(df["date"].dtype, flush=True)
