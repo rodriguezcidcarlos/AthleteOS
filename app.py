@@ -24,16 +24,21 @@ print("ANTES ANALYZE SQUAD", flush=True)
 
 squad = core.analyze_squad(df_core)
 
-print("SQUAD OK", flush=True)
+priority = core.prioritize_squad(squad)
+
+print("PRIORITY OK", flush=True)
 
 print(
-    squad[
+    priority[
         [
             "player",
             "acwr",
-            "status"
+            "status",
+            "priority"
         ]
-    ].head().to_string(),
+    ]
+    .head()
+    .to_string(),
     flush=True
 )
 
