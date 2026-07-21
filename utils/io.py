@@ -81,7 +81,7 @@ def normalize_columns(df):
                 df[col],
                 errors="coerce"
             )
-
+    return df
 
 def normalize_training_columns(df):
 
@@ -183,6 +183,12 @@ def load_excel_monthly(path):
             df_month
         )
 
+        print(
+            "SHEET:",
+            sheet,
+            "TYPE:",
+            type(df_month)
+        )
 
         # Crear fecha desde día + hoja
 
