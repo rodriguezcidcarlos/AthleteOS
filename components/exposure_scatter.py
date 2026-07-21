@@ -172,7 +172,8 @@ def build_exposure_scatter(df):
 
     )
 
-
+    print("SCATTER TYPE:", type(fig), flush=True)
+    
     return dcc.Graph(
 
         figure=fig,

@@ -97,13 +97,15 @@ def load_training_data(path):
         print("LOAD 4 DATE BUILD", flush=True)
 
         # Crear fecha sin pd.to_datetime
-        df.loc[:, "date"] = (
-            "2026-07-"
-            + df["day"]
+        df.loc[:, "date"] = pd.to_datetime(
+            "2026-07-" +
+            df["day"]
+            .clip(lower=1, upper=31)
             .fillna(1)
             .astype(int)
             .astype(str)
-            .str.zfill(2)
+            .str.zfill(2),
+            errors="coerce"
         )
 
         print("DATE STRING OK", flush=True)
