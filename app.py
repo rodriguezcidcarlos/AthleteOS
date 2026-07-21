@@ -24,6 +24,11 @@ print(df.columns.tolist(), flush=True)
 
 print(df.head().to_string(), flush=True)
 
+print("ANTES CORE", flush=True)
+
+from core.engine import AthleteOSCore
+
+print("CORE IMPORT OK", flush=True)
 
 app = Dash(__name__)
 
