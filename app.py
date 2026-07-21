@@ -1,47 +1,34 @@
-print("000 APP START", flush=True)
+print("000 APP START")
 
 from pathlib import Path
 from dash import Dash, html
 
-print("001 DASH OK", flush=True)
+print("001 DASH OK")
 
-import pandas as pd
+from utils.io import load_training_data
 
-print("002 PANDAS OK", flush=True)
+print("002 IO OK")
 
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR / "data" / "synthetic_training.xlsx"
 
 
-print("003 BEFORE EXCEL", flush=True)
+print("003 BEFORE EXCEL")
 
-excel = pd.ExcelFile(DATA_FILE)
+df = load_training_data(DATA_FILE)
 
-print("004 EXCEL OPEN OK", flush=True)
-
-print(excel.sheet_names, flush=True)
-
-
-df = pd.read_excel(
-    DATA_FILE
-)
-
-print("005 READ OK", flush=True)
-
-print(df.shape, flush=True)
+print("004 DATA OK")
+print(df.shape)
+print(df.columns)
 
 
 app = Dash(__name__)
 
 app.layout = html.Div(
-    "AthleteOS Excel Test"
+    [
+        html.H1("ATHLETEOS ONLINE 🚀"),
+        html.H2("Render OK"),
+        html.P(str(df.shape))
+    ]
 )
-
-
-if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=8050,
-        debug=False
-    )
