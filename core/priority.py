@@ -5,18 +5,23 @@ def generate_intervention_list(squad: pd.DataFrame):
 
     squad = squad.copy()
 
-
     def calculate_priority(row):
 
         status = row["status"]
 
-        if status == "Riesgo elevado":
+        risk_level = (
+            row["risk"]["level"]
+            if isinstance(row["risk"], dict)
+            else None
+        )
+
+        if risk_level == "Alto":
             return "Alta"
 
-        elif status == "Precaución":
-            return "Media"
-
-        elif status == "Subentrenamiento":
+        elif status in [
+            "Precaución",
+            "Subentrenamiento"
+        ]:
             return "Media"
 
         else:
@@ -42,11 +47,9 @@ def generate_intervention_list(squad: pd.DataFrame):
     )
 
 
-    squad = (
+    return (
         squad
         .sort_values("priority_order")
         .drop(columns=["priority_order"])
+        .reset_index(drop=True)
     )
-
-
-    return squad
