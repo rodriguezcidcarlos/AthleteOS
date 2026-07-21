@@ -10,6 +10,14 @@ from dash import Dash, html, dcc, Input, Output, State
 from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
 
+print("APP START")
+
+import pandas as pd
+print("PANDAS OK", pd.__version__)
+
+import numpy as np
+print("NUMPY OK", np.__version__)
+
 from config import DATA_FILE
 
 from utils.io import load_excel_monthly, normalize_training_columns
