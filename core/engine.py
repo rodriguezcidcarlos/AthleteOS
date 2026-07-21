@@ -80,21 +80,14 @@ class AthleteOSCore:
         print("PREP 2 PLAYER ID", flush=True)
 
         if "player_id" in df.columns:
-
             df.loc[:, "player_id"] = pd.to_numeric(
                 df["player_id"],
                 errors="coerce"
             )
 
-
         print("PREP 3 NUMERIC", flush=True)
 
-        numeric_cols = [
-            "duration",
-            "rpe"
-        ]
-
-        for col in numeric_cols:
+        for col in ["duration", "rpe"]:
 
             print("PREP CONVERT", col, flush=True)
 
@@ -103,122 +96,19 @@ class AthleteOSCore:
                 errors="coerce"
             )
 
-
         print("PREP 4 FILL NA", flush=True)
-
-        df.loc[:, "duration"] = (
-            df["duration"]
-            .fillna(0)
-        )
-
-        df.loc[:, "rpe"] = (
-            df["rpe"]
-            .fillna(0)
-        )
-
-
-        print("PREP 5 DATE", flush=True)
-
-        df["date"] = pd.to_datetime(
-            df["date"],
-            errors="coerce"
-        )
-
-
-        print("PREP 6 SORT", flush=True)
-
-        df = df.sort_values(
-            [
-                "player_id",
-                "date"
-            ]
-        ).reset_index(drop=True)
-
-
-        print("PREP 7 DAILY LOAD", flush=True)
-
-        df = calculate_daily_load(df)
-
-
-        print("PREP 8 ACWR", flush=True)
-
-        df = calculate_acwr(df)
-
-
-        print("PREP 9 RETURN", flush=True)
-
-        return df
-        # ----------------------
-        # Variables numéricas
-        # ----------------------
-
-        numeric_cols = [
-            "duration",
-            "rpe"
-        ]
-
-
-        for col in numeric_cols:
-
-            df[col] = pd.to_numeric(
-                df[col],
-                errors="coerce"
-            )
-
 
         df.loc[:, "duration"] = df["duration"].fillna(0)
         df.loc[:, "rpe"] = df["rpe"].fillna(0)
 
+        print("PREP 5 DATE", flush=True)
 
+        print(df["date"].head().to_string(), flush=True)
+        print(df["date"].dtype, flush=True)
 
-        # ----------------------
-        # Fechas
-        # ----------------------
-
-        df["date"] = pd.to_datetime(
-            df["date"],
-            errors="coerce"
-        )
-
-
-        if df["date"].isna().any():
-
-            if "day" in df.columns:
-
-                df["date"] = (
-                    pd.to_datetime("2026-07-01")
-                    +
-                    pd.to_timedelta(
-                        df["day"] - 1,
-                        unit="D"
-                    )
-                )
-
-
-        # ----------------------
-        # Orden
-        # ----------------------
-
-        df = df.sort_values(
-            [
-                "player_id",
-                "date"
-            ]
-        ).reset_index(drop=True)
-
-
-
-        # ----------------------
-        # Cálculos carga
-        # ----------------------
-
-        df = calculate_daily_load(df)
-
-        df = calculate_acwr(df)
-
+        print("PREP 5 DATE BEFORE RETURN", flush=True)
 
         return df
-
 
 
     def analyze_player(self, player_df: pd.DataFrame):
