@@ -20,13 +20,7 @@ from dash.dependencies import ALL
 import dash_bootstrap_components as dbc
 
 
-print("APP START")
 
-print("PANDAS OK", pd.__version__)
-print("NUMPY OK", np.__version__)
-
-
-from config import DATA_FILE
 
 from utils.io import load_training_data, normalize_columns
 from core.engine import AthleteOSCore
@@ -65,10 +59,7 @@ squad = core.analyze_squad(df)
 
 priority = core.prioritize_squad(squad)
 
-print(squad.iloc[0]["risk"])
 
-
-from datetime import datetime
 
 last_update = datetime.now().strftime(
     "%d %b %Y · %H:%M"
@@ -88,8 +79,11 @@ players = (
 )
 
 
-default_player = players["player_id"].iloc[0]
-
+default_player = (
+    players["player_id"].iloc[0]
+    if not players.empty
+    else None
+)
 
 # ==========================
 # Crear aplicación
@@ -103,7 +97,10 @@ app = Dash(
     suppress_callback_exceptions=True
 )
 
+
 server = app.server
+
+
 
 app.title = "AthleteOS"
 
@@ -111,9 +108,12 @@ app.title = "AthleteOS"
 # Layout
 # ==========================
 
-app.layout = dbc.Container(
 
-    [
+def build_main_layout():
+
+    return dbc.Container(
+
+        [
 
         dbc.Row(
 
@@ -252,6 +252,23 @@ app.layout = dbc.Container(
     ],
 
     fluid=True
+)
+    
+    
+app.layout = html.Div(
+    [
+        dcc.Location(id="url"),
+
+        dcc.Store(
+            id="login-state",
+            storage_type="session"
+        ),
+
+        html.Div(
+            build_main_layout(),
+            id="app-container"
+        )
+    ]
 )
 # ==========================
 # Validación callbacks dinámicos

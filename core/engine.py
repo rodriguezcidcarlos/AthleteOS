@@ -138,26 +138,7 @@ class AthleteOSCore:
 
         df = calculate_acwr(df)
 
-
-        print(
-            "DATA READY:",
-            df.shape,
-            flush=True
-        )
-
-        print(
-            df[
-                [
-                    "player_id",
-                    "date",
-                    "daily_load",
-                    "acwr",
-                    "status"
-                ]
-            ].tail(),
-            flush=True
-        )
-
+        
 
         return df
     
@@ -226,8 +207,13 @@ class AthleteOSCore:
 
             results.append(analysis)
 
-        return pd.DataFrame(results)
-    
+        return (
+            pd.DataFrame(results)
+            .sort_values(
+                "player_id"
+            )
+            .reset_index(drop=True)
+        )    
     def prioritize_squad(self, squad_analysis):
 
         return generate_intervention_list(
