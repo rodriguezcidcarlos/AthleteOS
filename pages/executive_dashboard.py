@@ -215,11 +215,36 @@ def build_executive_dashboard(squad, df):
 
 
     return dbc.Container(
+
         [
 
             html.H2(
                 "Executive Performance Overview",
                 className="fw-bold mb-4"
+            ),
+
+            dbc.Row(
+
+                [
+
+                    dbc.Col(),
+
+                    dbc.Col(
+
+                        dbc.Button(
+                            "📄 Exportar informe",
+                            id="export-pdf-btn",
+                            color="primary"
+                        ),
+
+                        width="auto"
+
+                    )
+
+                ],
+
+                className="mb-4"
+
             ),
 
             dbc.Row(

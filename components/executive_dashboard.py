@@ -3,12 +3,11 @@ import dash_bootstrap_components as dbc
 from components.kpi_cards import build_kpi_cards
 from components.exposure_scatter import build_exposure_scatter
 from components.action_ranking import build_action_ranking
-from components.executive_alerts import build_executive_alerts
 from components.executive_gauges import build_executive_gauges
 from components.executive_table import build_executive_table
 
 def build_executive_dashboard(squad, df):
-
+    
         
     total = len(squad)
 
@@ -58,10 +57,6 @@ def build_executive_dashboard(squad, df):
         high
     )
 
-    alerts = build_executive_alerts(
-        squad,
-        df
-    )
 
     gauges = dbc.Card(
 
@@ -232,15 +227,15 @@ def build_executive_dashboard(squad, df):
                 className="mb-4"
             ),
 
-            dbc.Row(
-                [
-                    dbc.Col(
-                        alerts,
-                        width=12
-                    )
-                ],
-                className="mb-4"
-            ),
+            #dbc.Row(
+            #    [
+            #        dbc.Col(
+            #            alerts,
+            #            width=12
+            #        )
+            #    ],
+            #    className="mb-4"
+            #),
 
             dbc.Row(
                 [

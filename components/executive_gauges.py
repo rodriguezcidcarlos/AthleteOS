@@ -1,10 +1,7 @@
 import plotly.graph_objects as go
-from dash import dcc
-import dash_bootstrap_components as dbc
 
 
-def build_executive_gauges(df, squad):
-
+def build_executive_gauges_figures(df, squad):
 
     # ==========================
     # Último estado individual
@@ -54,7 +51,8 @@ def build_executive_gauges(df, squad):
     available = (
         squad["risk"]
         .apply(
-            lambda x: x["available"]
+            lambda x: isinstance(x, dict)
+            and x.get("available", False)
         )
         .mean()
         *
@@ -166,17 +164,17 @@ def build_executive_gauges(df, squad):
 
                 {
                     "range":[0,10],
-                    "color":"#145A32"
+                    "color":"#239B56"   # baja exposición
                 },
 
                 {
                     "range":[10,25],
-                    "color":"#B7950B"
+                    "color":"#D68910"   # vigilancia
                 },
 
                 {
                     "range":[25,100],
-                    "color":"#641E16"
+                    "color":"#C0392B"   # exposición elevada
                 }
 
             ]
@@ -216,6 +214,8 @@ def build_executive_gauges(df, squad):
         )
 
 
+        from assets.theme import athleteos_theme
+
         fig.update_layout(
 
             height=250,
@@ -225,73 +225,85 @@ def build_executive_gauges(df, squad):
                 r=30,
                 t=70,
                 b=30
-            ),
-
-            paper_bgcolor="#111827",
-
-            font={
-                "color":"white"
-            }
+            )
 
         )
 
+        athleteos_theme(fig)
 
-        return dcc.Graph(
+        return fig
 
-            figure=fig,
 
-            config={
-                "displayModeBar":False
-            }
+    return {
 
-        )
+    "acwr": create_gauge(
+        "ACWR Global",
+        acwr,
+        2,
+        gauge_type="acwr"
+    ),
 
+    "availability": create_gauge(
+        "Disponibilidad",
+        available,
+        100,
+        "%",
+        gauge_type="availability"
+    ),
+
+    "exposure": create_gauge(
+        "Exposición elevada",
+        exposure,
+        100,
+        "%",
+        gauge_type="exposure"
+    )
+
+}
+    
+from dash import dcc
+import dash_bootstrap_components as dbc
+
+
+def build_executive_gauges(df, squad):
+
+    figures = build_executive_gauges_figures(
+        df,
+        squad
+    )
 
     return dbc.Row(
 
         [
 
             dbc.Col(
-
-                create_gauge(
-                    "ACWR Global",
-                    acwr,
-                    2,
-                    gauge_type="acwr"
+                dcc.Graph(
+                    figure=figures["acwr"],
+                    config={
+                        "displayModeBar": False
+                    }
                 ),
-
                 width=4
-
             ),
 
-
             dbc.Col(
-
-                create_gauge(
-                    "Disponibilidad",
-                    available,
-                    100,
-                    "%",
-                    gauge_type="availability"
+                dcc.Graph(
+                    figure=figures["availability"],
+                    config={
+                        "displayModeBar": False
+                    }
                 ),
-
                 width=4
-
             ),
 
-
             dbc.Col(
-
-                create_gauge(
-                    "Exposición elevada",
-                    exposure,
-                    100,
-                    "%",
-                    gauge_type="exposure"
+                dcc.Graph(
+                    figure=figures["exposure"],
+                    config={
+                        "displayModeBar": False
+                    }
                 ),
-
                 width=4
-
             )
 
         ],

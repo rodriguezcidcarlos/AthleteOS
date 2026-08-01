@@ -1,9 +1,11 @@
 import plotly.graph_objects as go
 from dash import dcc
+from assets.theme import athleteos_theme
+from assets.theme import athleteos_theme, BORDER
 
 
-def build_exposure_scatter(df):
-
+def build_exposure_scatter_figure(df):
+    
     data = df.copy()
 
     # Último registro disponible de cada jugador
@@ -137,43 +139,40 @@ def build_exposure_scatter(df):
             line_dash="dash",
 
             line_color="gray"
-
         )
 
 
     fig.update_layout(
 
-        title="Mapa de exposición de plantilla",
+        template="plotly_dark",
+
+        paper_bgcolor="#111827",
+
+        plot_bgcolor="#111827",
+
+        font=dict(
+            family="Montserrat",
+            color="white",
+            size=13
+        ),
+
+        title=dict(
+            text="Mapa de exposición de plantilla",
+            font=dict(size=20)
+        ),
 
         height=550,
 
-        template="plotly_dark",
-
-        xaxis=dict(
-
-            title="ACWR actual",
-
-            range=[
-                0,
-                max(2, latest["acwr"].max()*1.15)
-            ]
-
-        ),
-
-
-        yaxis=dict(
-
-            title="Carga crónica (EWMA 28 días)"
-
-        ),
-
-
         hovermode="closest"
-
     )
-
-    print("SCATTER TYPE:", type(fig), flush=True)
     
+    return fig
+            
+
+def build_exposure_scatter(df):
+
+    fig = build_exposure_scatter_figure(df)
+
     return dcc.Graph(
 
         figure=fig,
