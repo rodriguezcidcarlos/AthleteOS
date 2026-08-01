@@ -30,7 +30,7 @@ pdfmetrics.registerFont(
 pdfmetrics.registerFont(
     TTFont(
         "Azonix",
-        str(FONT_DIR / "Azonix.ttf")  
+        str(FONT_DIR / "azonix.ttf")  
     )
 )
 
